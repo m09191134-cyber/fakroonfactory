@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>معرض الصور - مصنع فكرون للصناعات المعدنية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --primary: #0b1c3f;       /* أزرق كحلي */
+            --primary-light: #1f3f7a;
+            --bg-light: #f3f3f3;      /* رمادي فاتح */
+            --bg-section: #e5e5e5;
+            --text-main: #222;
+            --text-muted: #666;
+            --white: #ffffff;
+            --radius-lg: 14px;
+            --radius-md: 10px;
+            --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            direction: rtl;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* الهيدر العلوي */
+        .top-bar {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 26px;
+        }
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .logo-text p {
+            margin: 2px 0 0;
+            font-size: 12px;
+            opacity: 0.85;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 13px;
+            border: 1px solid rgba(255,255,255,0.4);
+            transition: 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .back-link span {
+            font-size: 15px;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.18);
+        }
+
+        /* الأقسام */
+        .section {
+            padding: 40px 0;
+        }
+
+        .section.alt {
+            background: var(--bg-section);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .section-header h2 {
+            margin: 0 0 8px;
+            font-size: 22px;
+            color: var(--primary);
+        }
+
+        .section-header p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .section-intro {
+            max-width: 750px;
+            margin: 0 auto 18px;
+            font-size: 14px;
+            line-height: 1.9;
+            text-align: center;
+            color: var(--text-main);
+        }
+
+        /* شبكة الصور */
+        .img-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        .img-item {
+            background: #cfcfcf;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .img-item img {
+            width: 100%;
+            height: 220px;           /* حجم موحّد لكل الصور */
+            object-fit: cover;
+            display: block;
+        }
+
+        .img-caption {
+            padding: 8px 10px;
+            background: rgba(11, 28, 63, 0.95);
+            color: #ffffff;
+            font-size: 13px;
+        }
+
+        .img-caption small {
+            display: block;
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        /* ملاحظات تحت المعرض */
+        .note-text {
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* فوتر بسيط */
+        .footer {
+            background: #111827;
+            color: var(--white);
+            text-align: center;
+            padding: 10px 0 12px;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 720px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .back-link {
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .img-item img {
+                height: 190px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هيدر بسيط مع زر رجوع -->
+    <header class="top-bar">
+        <div class="container header-content">
+            <div class="logo">
+                <span class="logo-icon">🗂️</span>
+                <div class="logo-text">
+                    <h1>معرض الصور</h1>
+                    <p>مصنع فكرون للصناعات المعدنية – أرفف وتجهيز محلات ومخازن</p>
+                </div>
+            </div>
+
+            <!-- زر الرجوع للصفحة الرئيسية -->
+            <a href="index.html" class="back-link">
+                <span>←</span>
+                <span>الرجوع للصفحة الرئيسية</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- مقدمة بسيطة عن المعرض -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>معرض الصور</h2>
+                    </div>
+                <p class="section-intro">
+                    في هذه الصفحة يمكن استعراض مجموعة من الصور التي تبيّن بيئة العمل داخل المصنع،
+                    وطريقة تجهيز المحلات التجارية والمخازن بالأرفف المعدنية وأنظمة العرض المختلفة.
+                </p>
+            </div>
+        </section>
+ 
+        <!--  صور لأعمالنا -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>صور لأعمالنا</h2>
+                    <p>نماذج من تجهيز المحلات التجارية وأرفف المخازن</p>
+                </div>
+
+                <div class="img-grid">
+                    <!-- 🔽 انسخ هذا البلوك وأضف صور قد ما تحب -->
+                    <div class="img-item">
+                        <img src="10.jpeg">
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="11.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="13.jpeg">
+                        
+                    </div>
+                    <div class="img-item">
+                        <img src="14.jpeg">
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="15.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="12.jpeg">
+                        
+                    </div>
+                    <div class="img-item">
+                        <img src="16.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="17.jpeg">
+                        
+                    </div>
+                    
+                    <!-- ⬆️ انسخ وعدّل المصدر (src) والنص حسب المشاريع اللي نفّذتوها -->
+              <div class="img-item">
+                        <img src="18.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="19.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="20.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="21.jpeg">
+                        
+                    </div>
+<div class="img-item">
+                        <img src="22.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="23.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="24.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="25.jpeg">
+                        
+                    </div>
+<div class="img-item">
+                        <img src="26.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="27.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="28.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="29.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="30.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="31.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="32.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="33.jpeg">
+                        
+                    </div>
+<div class="img-item">
+                        <img src="36.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="37.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="34.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="35.jpeg">
+                        
+                    </div>
+<div class="img-item">
+                        <img src="41.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="40.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="38.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="39.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="42.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="43.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="44.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="45.jpeg">
+                        
+                    </div>
+<div class="img-item">
+                        <img src="46.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="47.jpeg">
+                        
+                    </div>
+
+<div class="img-item">
+                        <img src="48.jpeg" >
+                        
+                    </div>
+
+                    <div class="img-item">
+                        <img src="49.jpeg">
+                        
+                    </div>
+
+                </div>
+                
+                    
+              
+
+               
+
+               
+            </div>
+        </section>
+
+    </main>
+
+    <!-- فوتر بسيط -->
+    <footer class="footer">
+        <div class="container">
+            <p>© معرض الصور – مصنع فكرون للصناعات المعدنية | مصراتة</p>
+        </div>
+    </footer>
+
+</body>
+</html>
